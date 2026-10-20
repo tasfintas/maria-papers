@@ -1,0 +1,122 @@
+<title>Maria's Papers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: left = animated scene stage, right = dialogue card, bottom = stepper. Palette taken from the reference piece. */
+:root{
+  --ink:#000; --card:#ede8f1; --card-ink:#1b1840; --walk:#7f7692; --face-l:#475074; --face-r:#212966;
+  --cream:#f9e5c0; --peach:#f4a58a; --pink:#e86f9a; --muted:#6a6590;
+  --display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif; --body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px;
+  display:flex;flex-direction:column;gap:12px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+header h1{font:800 20px/1.1 var(--display);margin:0;letter-spacing:-.01em}
+header p{margin:0;font-size:12.5px;color:#b9b2d6;max-width:60ch}
+main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px}
+.stage{position:relative;background:var(--face-r);border-radius:16px;overflow:hidden;min-height:0;display:flex;aspect-ratio:4/3;align-self:center;width:100%}
+.stage svg{width:100%;height:100%;display:block}
+.age{position:absolute;left:14px;top:14px;background:var(--cream);color:var(--card-ink);padding:6px 12px;border-radius:999px;font:800 15px/1 var(--display);letter-spacing:.01em;box-shadow:0 2px 0 #0004}
+.age small{font:500 12px var(--body);opacity:.7;margin-left:6px}
+.tag{position:absolute;left:14px;bottom:12px;font-size:11.5px;color:#cfc9ea;background:#0006;padding:4px 9px;border-radius:999px}
+.card{background:var(--card);color:var(--card-ink);border-radius:16px;padding:22px 22px 18px;overflow:auto;min-width:0;display:flex;flex-direction:column;gap:12px}
+.eyebrow{font:700 11.5px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+.card h2{font:800 clamp(24px,2.6vw,32px)/1.05 var(--display);margin:0;text-wrap:balance;letter-spacing:-.015em}
+.story{font-size:15.5px;line-height:1.5;margin:0;max-width:62ch}
+.bars{display:grid;gap:8px;margin-top:2px}
+.bar{display:grid;grid-template-columns:54px 1fr auto;gap:10px;align-items:center;font-size:13px}
+.bar b{font-weight:700}
+.track{height:16px;background:#d8d1e6;border-radius:4px;overflow:hidden}
+.fill{height:100%;border-radius:4px;transition:width .5s ease}
+.fill.asked{background:var(--pink)}.fill.paid{background:var(--face-r)}
+.num{font:800 15px var(--display);font-variant-numeric:tabular-nums}
+.note{font-size:12px;color:var(--muted);margin:0}
+.device{background:#fff;border-radius:10px;padding:12px 14px;border-left:5px solid var(--peach)}
+.device h3{margin:0 0 4px;font:700 11px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:#a0583d}
+.device p{margin:0;font-size:14px;line-height:1.45}
+.src{margin-top:auto;font-size:11.5px;color:var(--muted);line-height:1.4}
+nav{display:flex;align-items:center;gap:12px}
+nav button{font:700 15px var(--body);background:var(--cream);color:var(--card-ink);border:0;border-radius:999px;padding:11px 22px;cursor:pointer;min-width:104px}
+nav button:disabled{opacity:.35;cursor:default}
+nav button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.count{font:800 16px var(--display);min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+.dots{flex:1;display:flex;gap:4px;min-width:0}
+.dots i{flex:1;height:5px;border-radius:3px;background:#2a2760;transition:background .3s}
+.dots i.on{background:var(--cream)}
+.dots i.done{background:var(--walk)}
+/* scene 1 animation: one 12s loop */
+.mom{animation:mom 12s ease-in-out infinite}
+.clerk{animation:clerk 12s ease-in-out infinite}
+.cash{animation:cash 12s ease-in-out infinite;opacity:0}
+.stampg{animation:stamp 12s ease-in-out infinite}
+.blink{animation:blink 1.2s steps(2) infinite}
+.q{animation:q 6s ease-in-out infinite}
+.spin{animation:spin 3s linear infinite;transform-origin:483px 276px}
+.fan{animation:fanflip .5s linear infinite;transform-origin:400px 46px}
+.bub{opacity:0}.b1{animation:b1 12s infinite}.b2{animation:b2 12s infinite}.b3{animation:b3 12s infinite}.b4{animation:b4 12s infinite}
+.gone{opacity:0;animation:gone 12s infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fanflip{0%,100%{transform:scaleX(1)}50%{transform:scaleX(-1)}}
+@keyframes blink{50%{opacity:.15}}
+@keyframes q{0%,100%{transform:translateX(0)}50%{transform:translateX(-8px)}}
+@keyframes mom{0%{transform:translateX(-340px)}11%,90%{transform:translateX(0)}100%{transform:translateX(-340px)}}
+@keyframes clerk{0%,31%{transform:translate(0,0)}35%,48%{transform:translate(-12px,8px)}53%,100%{transform:translate(0,0)}}
+@keyframes b1{0%,12%{opacity:0}14%,29%{opacity:1}31%,100%{opacity:0}}
+@keyframes b2{0%,32%{opacity:0}34%,49%{opacity:1}51%,100%{opacity:0}}
+@keyframes b3{0%,52%{opacity:0}54%,65%{opacity:1}67%,100%{opacity:0}}
+@keyframes b4{0%,79%{opacity:0}81%,93%{opacity:1}95%,100%{opacity:0}}
+@keyframes cash{0%,62%{opacity:0;transform:translate(0,0)}64%{opacity:1;transform:translate(0,0)}77%{opacity:1;transform:translate(var(--dx),var(--dy))}79%,100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+@keyframes stamp{0%,80%{transform:translateY(0)}82%{transform:translateY(10px)}85%,100%{transform:translateY(0)}}
+@keyframes gone{0%,70%{opacity:0;transform:translateY(0)}74%{opacity:1}80%{opacity:1;transform:translateY(-10px)}84%,100%{opacity:0;transform:translateY(-14px)}}
+@media (prefers-reduced-motion:reduce){
+  .mom,.clerk,.cash,.stampg,.fan,.gone,.q,.spin,.blink{animation:none}.b1,.b3,.b4{animation:none;opacity:0}.b2{animation:none;opacity:1}.b3{opacity:1}
+}
+@media (max-width:820px){
+  body{height:auto;min-height:100%}
+  main{grid-template-columns:1fr;grid-auto-rows:auto}
+  .stage{aspect-ratio:4/3}
+  .card{padding:18px}
+  nav button{padding:11px 16px;min-width:84px}
+}
+</style>
+<header><h1>Maria's Papers</h1><p>A composite life, built from real Ghush bribery reports. Maria is not a real person. The amounts are medians from real reports.</p></header>
+<main>
+  <section class="stage" id="stage" aria-label="Scene"></section>
+  <article class="card" id="card" aria-live="polite"></article>
+</main>
+<nav><button id="prev" type="button">&larr; Prev</button><div class="dots" id="dots"></div><div class="count" id="count"></div><button id="next" type="button">Next &rarr;</button></nav>
+<script>
+const SCENES=__SCENES__;
+const SVGS=__SVGS__;
+const money=n=>n==null?'—':'Tk '+Number(n).toLocaleString('en-US');
+let i=0;
+const $=id=>document.getElementById(id);
+function bar(label,cls,v,max,note){
+  const w=v==null?0:Math.max(3,Math.round(v/max*100));
+  return `<div class="bar"><b>${label}</b><div class="track"><div class="fill ${cls}" style="width:${w}%"></div></div><span class="num">${money(v)}</span></div>`;
+}
+function render(){
+  const s=SCENES[i]; const max=Math.max(s.asked||0,s.paid||0,1);
+  $('stage').innerHTML=SVGS[i]+`<div class="age">Age ${s.age}${s.ageNote?`<small>${s.ageNote}</small>`:''}</div>`;
+  $('card').innerHTML=`<p class="eyebrow">Step ${s.step} of ${SCENES.length} · ${s.stage}</p><h2>${s.title}</h2><p class="story">${s.story}</p>
+  <div><div class="bars">${bar('Asked','asked',s.asked,max)}${bar('Paid','paid',s.paid,max)}</div><p class="note">${s.n}</p></div>
+  ${s.device?`<div class="device"><h3>A real detail from the reports</h3><p>${s.device}</p></div>`:''}
+  <p class="src">Composite story. Source report${s.src.includes(',')?'s':''}: ${s.src}. Bars are scaled within each scene.</p>`;
+  $('count').textContent=`${s.step} / ${SCENES.length}`;
+  $('prev').disabled=i===0;$('next').disabled=i===SCENES.length-1;
+  [...$('dots').children].forEach((d,k)=>{d.className=k===i?'on':k<i?'done':''});
+  $('card').scrollTop=0;
+}
+$('dots').innerHTML=SCENES.map(()=>'<i></i>').join('');
+const go=d=>{const n=i+d;if(n>=0&&n<SCENES.length){i=n;render();}};
+$('prev').onclick=()=>go(-1);$('next').onclick=()=>go(1);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+let x0=null;const st=$('stage');
+st.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
+st.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?1:-1);x0=null});
+render();
+</script>
